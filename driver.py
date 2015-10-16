@@ -172,7 +172,7 @@ def main(params):
   json_worker_status['history'] = []
 
   import csv
-  csvfile = open('results/test.csv','wb')
+  csvfile = open('results/'+params['generator']+'.csv','wb')
   csvout = csv.writer(csvfile,delimiter=',',quotechar='"')
 
   for it in xrange(max_iters):
@@ -197,6 +197,8 @@ def main(params):
     csvout.writerow([it, max_iters, dt, epoch, cost['loss_cost'], cost['reg_cost'],train_ppl2, smooth_train_ppl2])
     csvfile.flush()
     sys.stdout.flush()
+
+    os.system('./update_plots.sh')
 
     # perform gradient check if desired, with a bit of a burnin time (10 iterations)
     if it == 10 and do_grad_check:
@@ -320,10 +322,13 @@ if __name__ == "__main__":
   parser.add_argument('--min_ppl_or_abort', dest='min_ppl_or_abort', type=float , default=-1, help='if validation perplexity is below this threshold the job will abort')
 
   import sys
-  sys.stdout = open('results/log.txt','w')
+
 
   args = parser.parse_args()
   params = vars(args) # convert to ordinary dict
+
+  sys.stdout = open('results/'+params['generator']+'.log','w')
+
   print 'parsed parameters:'
   print json.dumps(params, indent = 2)
   main(params)
