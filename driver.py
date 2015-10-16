@@ -170,6 +170,11 @@ def main(params):
   json_worker_status = {}
   json_worker_status['params'] = params
   json_worker_status['history'] = []
+
+  import csv
+  csvfile = open('results/test.csv','wb')
+  csvout = csv.writer(csvfile,delimiter=',',quotechar='"')
+
   for it in xrange(max_iters):
     if abort: break
     t0 = time.time()
@@ -260,6 +265,8 @@ def main(params):
           except Exception, e: # todo be more clever here
             print 'tried to write checkpoint into %s but got error: ' % (filepat, )
             print e
+
+  csvout.close()
 
 
 if __name__ == "__main__":
