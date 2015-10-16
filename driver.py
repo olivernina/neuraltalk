@@ -250,12 +250,12 @@ def main(params):
         abort = True # abort the job
 
       write_checkpoint_ppl_threshold = params['write_checkpoint_ppl_threshold']
-      if val_ppl2 < top_val_ppl2 or top_val_ppl2 < 0:
+      if  val_ppl2 < top_val_ppl2 or top_val_ppl2 < 0:
         if val_ppl2 < write_checkpoint_ppl_threshold or write_checkpoint_ppl_threshold < 0:
           # if we beat a previous record or if this is the first time
           # AND we also beat the user-defined threshold or it doesnt exist
           top_val_ppl2 = val_ppl2
-          filename = 'model_checkpoint_%s_%s_%s_%.2f.p' % (dataset, host, params['fappend'], val_ppl2)
+          filename = 'model_%s_checkpoint_%s_%s_%s_%.2f.p' % (params['generator'],dataset, host, params['fappend'], val_ppl2)
           filepath = os.path.join(params['checkpoint_output_directory'], filename)
           checkpoint = {}
           checkpoint['it'] = it
