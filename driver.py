@@ -194,6 +194,8 @@ def main(params):
           % (it, max_iters, dt, epoch, cost['loss_cost'], cost['reg_cost'], \
              train_ppl2, smooth_train_ppl2)
 
+    csvout.writerow([it, max_iters, dt, epoch, cost['loss_cost'], cost['reg_cost'],train_ppl2, smooth_train_ppl2])
+    csvfile.flush()
     sys.stdout.flush()
 
     # perform gradient check if desired, with a bit of a burnin time (10 iterations)
