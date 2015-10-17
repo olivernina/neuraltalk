@@ -1,2 +1,2 @@
-python results/plot_graphs.py lstm.csv clstm.csv noinput.csv noforget.csv
+python plot_graphs.py coco/ lstm.csv clstm.csv noinput.csv noforget.csv
 

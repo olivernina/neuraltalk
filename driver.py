@@ -172,7 +172,7 @@ def main(params):
   json_worker_status['history'] = []
 
   import csv
-  csvfile = open('results/'+params['generator']+'.csv','wb')
+  csvfile = open(os.path.join(params['outdir'],params['generator']+'.csv'),'wb')
   csvout = csv.writer(csvfile,delimiter=',',quotechar='"')
 
   for it in xrange(max_iters):
@@ -198,7 +198,7 @@ def main(params):
     csvfile.flush()
     sys.stdout.flush()
 
-    os.system('./update_plots.sh')
+    # os.system('./update_plots.sh')
 
     # perform gradient check if desired, with a bit of a burnin time (10 iterations)
     if it == 10 and do_grad_check:
@@ -320,6 +320,7 @@ if __name__ == "__main__":
   parser.add_argument('--eval_batch_size', dest='eval_batch_size', type=int, default=100, help='for faster validation performance evaluation, what batch size to use on val img/sentences?')
   parser.add_argument('--eval_max_images', dest='eval_max_images', type=int, default=-1, help='for efficiency we can use a smaller number of images to get validation error')
   parser.add_argument('--min_ppl_or_abort', dest='min_ppl_or_abort', type=float , default=-1, help='if validation perplexity is below this threshold the job will abort')
+  parser.add_argument('--outdir', type=str, default='results/', help='where output files will be saved')
 
   import sys
 
@@ -327,7 +328,10 @@ if __name__ == "__main__":
   args = parser.parse_args()
   params = vars(args) # convert to ordinary dict
 
-  sys.stdout = open('results/'+params['generator']+'.log','w')
+  if not os.path.exists(params['outdir']):
+    os.mkdir(params['outdir'])
+
+  sys.stdout = open(os.path.join(params['outdir'],params['generator']+'.log'),'w')
 
   print 'parsed parameters:'
   print json.dumps(params, indent = 2)
