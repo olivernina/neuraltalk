@@ -6,7 +6,9 @@ from imagernn.rnn_generator import RNNGenerator
 from imagernn.clstm_generator import CLSTMGenerator
 from imagernn.noinput_generator import NOINPUTGenerator
 from imagernn.noforget_generator import NOFORGETGenerator
-from imagernn.inputcoupled_generator import INPUTCOUPLEDGenerator
+from imagernn.icoupled_generator import ICOUPLEDGenerator
+from imagernn.fcoupled_generator import FCOUPLEDGenerator
+
 
 def decodeGenerator(generator):
   if generator == 'lstm':
@@ -20,7 +22,9 @@ def decodeGenerator(generator):
   if generator == 'noforget':
     return NOFORGETGenerator
   if generator == 'icoupled':
-    return INPUTCOUPLEDGenerator
+    return ICOUPLEDGenerator
+  if generator == 'fcoupled':
+    return FCOUPLEDGenerator
   else:
     raise Exception('generator %s is not yet supported' % (base_generator_str,))
 
