@@ -233,6 +233,7 @@ class ICOUPLEDGenerator:
       C[t] = (IFOGf[t,:d] * IFOGf[t, 3*d:])+ (1-IFOGf[t,:d])* c_prev
 
 
+
       if tanhC_version:
         Hout[t] = IFOGf[t,2*d:3*d] * np.tanh(C[t])
       else:
