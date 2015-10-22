@@ -5,9 +5,9 @@ from imagernn.utils import initw
 
 class NOINPUTGenerator:
   """ 
-  A multimodal long short-term memory (LSTM) without input gate
+  A multimodal long short-term memory (LSTM) generator
   """
-  
+  #coupled not input
   @staticmethod
   def init(input_size, hidden_size, output_size):
 
@@ -233,16 +233,16 @@ class NOINPUTGenerator:
       IFOG[t] = Hin[t].dot(WLSTM)
       IFOGf[t,:3*d] = 1.0/(1.0+np.exp(-IFOG[t,:3*d]))
       IFOGf[t,3*d:] = np.tanh(IFOG[t, 3*d:])
-
       # C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:] + IFOGf[t,d:2*d] * c_prev
-      C[t] = IFOGf[t, 3*d:] + IFOGf[t,d:2*d] * c_prev #original
-
+      C[t] = IFOGf[t, 3*d:] + IFOGf[t,d:2*d] * c_prev
       if tanhC_version:
         Hout[t] = IFOGf[t,2*d:3*d] * np.tanh(C[t])
       else:
         Hout[t] = IFOGf[t,2*d:3*d] * C[t]
       Y = Hout.dot(Wd) + bd
       return (Y, Hout, C) # return output, new hidden, new cell
+
+
 
     # forward prop the image
     (y0, h, c) = LSTMtick(Xi, np.zeros(d), np.zeros(d))
@@ -280,7 +280,7 @@ class NOINPUTGenerator:
       # strip the intermediates
       predictions = [(b[0], b[1]) for b in beams]
     else:
-      # greedy inference. lets write it up independently, should be bit faster and simpler
+     # greedy inference. lets write it up independently, should be bit faster and simpler
       ixprev = 0
       nsteps = 0
       predix = []
@@ -297,6 +297,7 @@ class NOINPUTGenerator:
 
     return predictions
 
+
 def ymax(y):
   """ simple helper function here that takes unnormalized logprobs """
   y1 = y.ravel() # make sure 1d
@@ -306,3 +307,4 @@ def ymax(y):
   y1 = np.log(1e-20 + p1) # guard against zero probabilities just in case
   ix = np.argmax(y1)
   return (ix, y1[ix])
+
