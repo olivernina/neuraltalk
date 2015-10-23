@@ -45,8 +45,10 @@ The input to the system is the **data** folder, which contains the Flickr8K, Fli
 
 ##Using different generators
 
-Generators options are: clstm, noinput, icoupled.
+Generators options are: clstm, noinput and icoupled.
+
 For instance for using clstm use: 
+
 python driver.py --dataset flickr8k --generator clstm --outdir results_flickr8k
 
 To get the numbers use:
