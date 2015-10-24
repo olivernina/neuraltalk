@@ -43,5 +43,17 @@ Have a look inside the folder `example_images` for instructions on how to do thi
 
 The input to the system is the **data** folder, which contains the Flickr8K, Flickr30K and MSCOCO datasets. In particular, each folder (e.g. `data/flickr8k`) contains a `dataset.json` file that stores the image paths and sentences in the dataset (all images, sentences, raw preprocessed tokens, splits, and the mappings between images and sentences). Each folder additionally contains `vgg_feats.mat` , which is a `.mat` file that stores the CNN features from all images, one per row, using the VGG Net from ILSVRC 2014. Finally, there is the `imgs/` folder that holds the raw images. I also provide the Matlab script that I used to extract the features, which you may find helpful if you wish to use a different dataset. This is inside the `matlab_features_reference/` folder, and see the Readme file in that folder for more information.
 
+##Using different generators
+
+Generators options are: clstm, noinput and icoupled.
+
+For instance for using clstm use: 
+
+python driver.py --dataset flickr8k --generator clstm --outdir results_flickr8k
+
+To get the numbers use:
+
+python eval_sentence_predictions.py results_flickr8k/model_checkpoint
+
 ## License
 BSD license.
