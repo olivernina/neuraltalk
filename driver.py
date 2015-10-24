@@ -175,6 +175,9 @@ def main(params):
   csvfile = open(os.path.join(params['outdir'],params['generator']+'.csv'),'wb')
   csvout = csv.writer(csvfile,delimiter=',',quotechar='"')
 
+  csv_val_file = open(os.path.join(params['outdir'],params['generator']+'_val.csv'),'wb')
+  csv_val_out = csv.writer(csv_val_file,delimiter=',',quotechar='"')
+
   for it in xrange(max_iters):
     if abort: break
     t0 = time.time()
@@ -242,6 +245,9 @@ def main(params):
     if (((it+1) % eval_period_in_iters) == 0 and it < max_iters - 5) or is_last_iter:
       val_ppl2 = eval_split('val', dp, model, params, misc) # perform the evaluation on VAL set
       print 'validation perplexity = %f' % (val_ppl2, )
+
+      csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2])
+      csv_val_file.flush()
       
       # abort training if the perplexity is no good
       min_ppl_or_abort = params['min_ppl_or_abort']
@@ -317,7 +323,7 @@ if __name__ == "__main__":
   parser.add_argument('--word_count_threshold', dest='word_count_threshold', type=int, default=5, help='if a word occurs less than this number of times in training data, it is discarded')
 
   # evaluation parameters
-  parser.add_argument('-p', '--eval_period', dest='eval_period', type=float, default=1.0, help='in units of epochs, how often do we evaluate on val set?')
+  parser.add_argument('-p', '--eval_period', dest='eval_period', type=float, default=.10, help='in units of epochs, how often do we evaluate on val set?')
   parser.add_argument('--eval_batch_size', dest='eval_batch_size', type=int, default=100, help='for faster validation performance evaluation, what batch size to use on val img/sentences?')
   parser.add_argument('--eval_max_images', dest='eval_max_images', type=int, default=-1, help='for efficiency we can use a smaller number of images to get validation error')
   parser.add_argument('--min_ppl_or_abort', dest='min_ppl_or_abort', type=float , default=-1, help='if validation perplexity is below this threshold the job will abort')
