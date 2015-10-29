@@ -261,7 +261,7 @@ def main(params):
           # if we beat a previous record or if this is the first time
           # AND we also beat the user-defined threshold or it doesnt exist
           top_val_ppl2 = val_ppl2
-          filename = 'model_%s_checkpoint_%s_%s_%s_%.2f.p' % (params['generator'],dataset, host, params['fappend'], val_ppl2)
+          filename = 'model_%s_checkpoint_%s_%s_%s_%d_%.2f.p' % (params['generator'],dataset, host, params['fappend'], it,val_ppl2)
           # filepath = os.path.join(params['checkpoint_output_directory'], filename)
           filepath = os.path.join(params['outdir'], filename)
           checkpoint = {}
